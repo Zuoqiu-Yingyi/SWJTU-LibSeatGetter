@@ -5,6 +5,8 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 
 import crawler
 import config
+import users
+
 
 app = Flask(__name__)
 
@@ -14,6 +16,12 @@ app = Flask(__name__)
 def login():
     try:
         data = request.get_json()
+        # 新的密码规范仅支持字母及数字
+        if not all([s.isdigit() or s.isalpha() for s in data['password']]):
+            return {
+                'status': 3,
+                'msg': '密码仅支持英文字母及数字',
+            }
         params = {
             'username': data['username'],
             'password': data['password'],
