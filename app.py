@@ -1,7 +1,10 @@
-from flask import Flask, request, make_response
 import threading
+import requests
+from flask import Flask, request, make_response
 from apscheduler.schedulers.blocking import BlockingScheduler
+
 import crawler
+import config
 
 app = Flask(__name__)
 
