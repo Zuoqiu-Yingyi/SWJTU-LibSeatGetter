@@ -86,8 +86,8 @@ def logout():
 
 
 # 开始抢座
-@app.route('/get_seat', methods=['POST'])
-def get_seat():
+@app.route('/grab-seat', methods=['POST'])
+def grabSeat():
     try:
         hour_now = datetime.now().hour
         if hour_now >= 21:
@@ -126,8 +126,8 @@ def get_seat():
 
 
 # 取消抢座
-@app.route('/cancel_get_seat', methods=['GET'])
-def cancel_get_seat():
+@app.route('/cancel-seat-grab', methods=['GET'])
+def cancelSeatGrab():
     try:
         data = request.cookies
         for user_session in users.waiting_users:
@@ -163,8 +163,8 @@ def cancel_get_seat():
 
 
 # 获取当前抢座状态
-@app.route('/get_status', methods=['GET'])
-def get_status():
+@app.route('/status', methods=['GET'])
+def getStatus():
     try:
         data = request.cookies
         if data['username'] in users.tmp_users:
@@ -212,7 +212,7 @@ def get_status():
 
 
 # 每天晚上清空用户列表
-def clean_users():
+def cleanUsers():
     try:
         print('清理用户中')
         users.tmp_users.clear()
@@ -228,7 +228,7 @@ def clean_users():
 
 
 # 每天早上6点抢第二天的座位
-def get_tmr_seat():
+def grabTomorrowSeat():
     try:
         for user_id in users.tmr_waiting_users:
             users.tmr_running_users[user_id] = users.tmr_waiting_users[user_id]
@@ -241,8 +241,8 @@ def get_tmr_seat():
 # 定时任务
 def routine():
     scheduler = BlockingScheduler()
-    scheduler.add_job(clean_users, 'cron', hour=0)
-    scheduler.add_job(get_tmr_seat, 'cron', hour=6, minute=1)
+    scheduler.add_job(cleanUsers, 'cron', hour=0)
+    scheduler.add_job(grabTomorrowSeat, 'cron', hour=6, minute=1)
 
 
 lib_thread = threading.Thread(target=traverse_loop)

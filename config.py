@@ -10,6 +10,8 @@ urls = {
     'book': 'http://202.115.72.52/api.php/spaces/{}/book'
 }
 
+ROTATION_TIME = 1  # 轮询间隔时间(单位: s)
+
 areas = {
     2: [6, 7],
     3: [8, 9, 10, 11, 21],

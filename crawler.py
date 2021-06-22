@@ -12,9 +12,9 @@ def traverse_loop():
         # 轮询用户队列
         while True:
             try:
-                # 每1秒查一遍有没有用户
+                # 每 config.ROTATION_TIME 秒查一遍有没有用户
                 if not users.waiting_users:
-                    time.sleep(1)
+                    time.sleep(config.ROTATION_TIME)
                     continue
                 # 有用户，获取队头用户
                 user_session = users.waiting_users.popleft()

@@ -128,7 +128,7 @@ $(document).on('click', '#get_seat_button', function() {
     }
     $('#process_modal').modal('show')
     $.ajax({
-        url: '/get_seat',
+        url: '/grab-seat',
         type: 'POST',
         data: JSON.stringify({
             'floors': floors
@@ -147,7 +147,7 @@ $(document).on('click', '#get_seat_button', function() {
             clearInterval(poll)
         })
         $.ajax({
-            url: '/get_status',
+            url: '/status',
             type: 'GET',
             success: function(data) {
                 if (data['status']) {
@@ -184,7 +184,7 @@ $(document).on('click', '#get_seat_button', function() {
 
 $(document).on('click', '#cancel_get_seat', function() {
     $.ajax({
-        url: '/cancel_get_seat',
+        url: '/cancel-seat-grab',
         type: 'GET',
         success: function(data) {
             clearInterval(poll)
