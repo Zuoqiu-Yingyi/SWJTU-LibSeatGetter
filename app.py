@@ -1,7 +1,7 @@
 from flask import Flask, request, make_response
 import threading
 from apscheduler.schedulers.blocking import BlockingScheduler
-from crawler import *
+import crawler
 
 app = Flask(__name__)
 
@@ -233,7 +233,7 @@ def grabTomorrowSeat():
         for user_id in users.tmr_waiting_users:
             users.tmr_running_users[user_id] = users.tmr_waiting_users[user_id]
             del users.tmr_waiting_users[user_id]
-            tmr_traverse_area(user_id)
+            crawler.tmr_traverse_area(user_id)
     except Exception as err:
         print(str(err))
 
@@ -245,7 +245,7 @@ def routine():
     scheduler.add_job(grabTomorrowSeat, 'cron', hour=6, minute=1)
 
 
-lib_thread = threading.Thread(target=traverse_loop)
+lib_thread = threading.Thread(target=crawler.traverse_loop)
 routine_thread = threading.Thread(target=routine)
 lib_thread.start()
 routine_thread.start()
