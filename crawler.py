@@ -113,7 +113,8 @@ def traverse_area(areas, user_id):
                 'area': area['id'],
                 'day': time_now.strftime('%Y-%m-%d'),
                 'startTime': time_now.strftime('%H:%M'),
-                'endTime': '22:30'
+                # 'endTime': '22:30',
+                'endTime': res_json['data']['list'][0]['endTime'],
             }
             res = requests.get(config.urls['area'], params=params)
             if res.status_code != requests.codes.ok:

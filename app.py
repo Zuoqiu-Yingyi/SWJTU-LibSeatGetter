@@ -2,6 +2,7 @@ import threading
 import requests
 from flask import Flask, request, make_response
 from apscheduler.schedulers.blocking import BlockingScheduler
+from datetime import datetime, timedelta
 
 import crawler
 import config
@@ -31,7 +32,11 @@ def login():
             'user-agent': config.UA
         }
         user_session = requests.session()
-        res = user_session.get(config.urls['login'], params=params, headers=headers)
+        res = user_session.get(
+            config.urls['login'],
+            params=params,
+            headers=headers,
+        )
         res_json = res.json()
         if res.status_code != requests.codes.ok:
             return {
@@ -52,8 +57,16 @@ def login():
             })
             if data['remember']:
                 out_date = datetime.today() + timedelta(days=10000)
-                response.set_cookie('username', data['username'], expires=out_date)
-                response.set_cookie('password', data['password'], expires=out_date)
+                response.set_cookie(
+                    'username',
+                    data['username'],
+                    expires=out_date,
+                )
+                response.set_cookie(
+                    'password',
+                    data['password'],
+                    expires=out_date,
+                )
             else:
                 response.set_cookie('username', data['username'])
                 response.set_cookie('password', data['password'])

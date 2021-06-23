@@ -21,4 +21,3 @@ tmr_waiting_users = {}
 tmr_running_users = {}
 # 存储明天抢座用户抢座楼层信息
 tmr_user_floors = {}
-
