@@ -13,6 +13,17 @@ urls = {
     'book': host + '/api.php/spaces/{}/book'  # 预约座位
 }
 
+proxy_username = "username"
+proxy_password = "password"
+proxy_host = "example.com"
+proxy_port = 0
+
+# 使用 HTTP 代理进入校园网
+proxies = {
+    "http": "http://%s:%s@%s:%d/" % (proxy_username, proxy_password, proxy_host, proxy_port),
+    "https": "http://%s:%s@%s:%d/" % (proxy_username, proxy_password, proxy_host, proxy_port),
+}
+
 ROTATION_TIME = 1  # 轮询间隔时间(单位: s)
 
 areas = {

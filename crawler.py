@@ -65,7 +65,10 @@ def traverse_floor(user_id):
                 if user_id in users.running_users:
                     raise Exception('请求预约的楼层数为空')
             for floor in floors:
-                res = requests.get(config.urls['floor'].format(floor))
+                res = requests.get(
+                    config.urls['floor'].format(floor),
+                    proxies=config.proxies,
+                )
                 if res.status_code != requests.codes.ok:
                     raise Exception('向图书馆的网络请求失败')
                 res_json = res.json()
@@ -101,7 +104,11 @@ def traverse_area(areas, user_id):
                 'day': time_now.strftime('%Y-%m-%d'),
                 'area': area['id']
             }
-            res = requests.get(config.urls['area_time'], params=params)
+            res = requests.get(
+                config.urls['area_time'],
+                params=params,
+                proxies=config.proxies,
+            )
             if res.status_code != requests.codes.ok:
                 raise Exception('寻位错误：向图书馆的网络请求失败')
             res_json = res.json()
@@ -116,7 +123,11 @@ def traverse_area(areas, user_id):
                 # 'endTime': '22:30',
                 'endTime': res_json['data']['list'][0]['endTime'],
             }
-            res = requests.get(config.urls['area'], params=params)
+            res = requests.get(
+                config.urls['area'],
+                params=params,
+                proxies=config.proxies,
+            )
             if res.status_code != requests.codes.ok:
                 raise Exception('寻位错误：向图书馆的网络请求失败')
             res_json = res.json()
@@ -150,7 +161,11 @@ def traverse_seat(seats, segment, user_id):
                     'segment': segment,
                     'type': 1
                 }
-                res = users.running_users[user_id].post(config.urls['book'].format(seat['id']), data=payload)
+                res = users.running_users[user_id].post(
+                    config.urls['book'].format(seat['id']),
+                    data=payload,
+                    proxies=config.proxies,
+                )
                 if res.status_code != requests.codes.ok:
                     raise Exception('向图书馆的网络请求失败')
                 res_json = res.json()
@@ -203,7 +218,11 @@ def tmr_traverse_area(user_id):
                     'day': time_now.strftime('%Y-%m-%d'),
                     'area': area
                 }
-                res = requests.get(config.urls['area_time'], params=params)
+                res = requests.get(
+                    config.urls['area_time'],
+                    params=params,
+                    proxies=config.proxies,
+                )
                 if res.status_code != requests.codes.ok:
                     raise Exception('寻位错误：向图书馆的网络请求失败')
                 res_json = res.json()
@@ -217,7 +236,11 @@ def tmr_traverse_area(user_id):
                     'startTime': '8:00',
                     'endTime': '22:30'
                 }
-                res = requests.get(config.urls['area'], params=params)
+                res = requests.get(
+                    config.urls['area'],
+                    params=params,
+                    proxies=config.proxies,
+                )
                 if res.status_code != requests.codes.ok:
                     raise Exception('寻位错误：向图书馆的网络请求失败')
                 res_json = res.json()
@@ -250,7 +273,11 @@ def tmr_traverse_seat(seats, segment, user_id):
                     'segment': segment,
                     'type': 1
                 }
-                res = users.tmr_running_users[user_id].post(config.urls['book'].format(seat['id']), data=payload)
+                res = users.tmr_running_users[user_id].post(
+                    config.urls['book'].format(seat['id']),
+                    data=payload,
+                    proxies=config.proxies,
+                )
                 if res.status_code != requests.codes.ok:
                     raise Exception('向图书馆的网络请求失败')
                 res_json = res.json()

@@ -36,6 +36,7 @@ def login():
             config.urls['login'],
             params=params,
             headers=headers,
+            proxies=config.proxies,
         )
         res_json = res.json()
         if res.status_code != requests.codes.ok:
